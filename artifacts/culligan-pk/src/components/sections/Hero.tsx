@@ -99,8 +99,8 @@ export function Hero() {
                 Trusted Water.
               </span>
               <br />
-              <span className="text-white/90 font-extrabold tracking-[-0.025em]"
-                style={{ fontSize: "0.62em" }}>
+              <span className="text-white/90 font-extrabold tracking-[-0.025em] whitespace-nowrap"
+                style={{ fontSize: "clamp(1rem, 2.6vw, 2.8rem)" }}>
                 Certified Quality. Delivered to Your Door.
               </span>
             </motion.h1>
