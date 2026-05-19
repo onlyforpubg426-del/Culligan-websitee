@@ -204,7 +204,6 @@ export function Hero() {
             {/* Image card */}
             <div className="relative w-full rounded-[2rem] overflow-hidden
                             border border-white/15
-                            shadow-[0_32px_80px_rgba(0,0,0,0.55)]
                             bg-white/5 backdrop-blur-sm">
               <img
                 src={`${BASE}/hero-product.jpg`}
@@ -215,8 +214,6 @@ export function Hero() {
               />
               {/* Inset ring */}
               <div className="absolute inset-0 rounded-[2rem] ring-1 ring-inset ring-white/10 pointer-events-none" />
-              {/* Bottom fade */}
-              <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-black/20 to-transparent pointer-events-none" />
             </div>
 
             {/* Floating pill — phone */}
