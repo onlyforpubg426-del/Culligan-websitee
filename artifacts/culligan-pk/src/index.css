@@ -213,6 +213,30 @@
   }
 }
 
+@keyframes bubble-rise {
+  0%   { transform: translateY(0) translateX(0);   opacity: 0; }
+  10%  { opacity: 0.6; }
+  85%  { opacity: 0.5; }
+  100% { transform: translateY(-110vh) translateX(15px); opacity: 0; }
+}
+
+.bubble-rise {
+  animation-name: bubble-rise;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  will-change: transform, opacity;
+}
+
+@keyframes pulse-dot {
+  0%, 100% { transform: scale(1);   opacity: 1; }
+  50%       { transform: scale(1.6); opacity: 0.5; }
+}
+
+.pulse-dot {
+  animation: pulse-dot 1.4s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
 @layer utilities {
   input[type="search"]::-webkit-search-cancel-button {
     @apply hidden;
