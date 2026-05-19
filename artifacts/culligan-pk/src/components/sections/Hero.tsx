@@ -75,7 +75,7 @@ export function Hero() {
             >
               <div className="h-px w-6 bg-sky-400/70" />
               <span
-                className="text-[11px] font-bold tracking-[0.22em] uppercase text-sky-300"
+                className="text-[12px] font-extrabold tracking-[0.22em] uppercase text-white"
               >
                 Pakistan's Premium Water Brand · Est. 1997
               </span>
