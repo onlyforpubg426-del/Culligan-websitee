@@ -247,15 +247,15 @@ export function Hero() {
               transition={{ delay: 0.82, duration: 0.4, ease: "easeOut" }}
               className="absolute -top-5 right-4
                          rounded-2xl px-4 py-2.5
-                         shadow-[0_8px_32px_rgba(0,0,0,0.35)]
-                         border border-white/20 backdrop-blur-xl
-                         bg-slate-900/70"
+                         shadow-[0_8px_32px_rgba(0,0,0,0.15)]
+                         border border-slate-100 backdrop-blur-xl
+                         bg-white"
             >
               <div className="flex items-center gap-1.5 mb-0.5">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 pulse-dot" />
-                <p className="text-[11px] font-bold text-white tracking-[0.02em]">Free Delivery</p>
+                <p className="text-[11px] font-bold text-slate-800 tracking-[0.02em]">Free Delivery</p>
               </div>
-              <p className="text-[10px] text-white/50 tracking-[0.03em]">Same-day · Karachi</p>
+              <p className="text-[10px] text-slate-400 tracking-[0.03em]">Same-day · Karachi</p>
             </motion.div>
           </motion.div>
 
