@@ -67,7 +67,7 @@ export function Hero() {
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.2fr] gap-10 lg:gap-12 items-center">
 
           {/* ── Left: Copy ── */}
-          <div className="flex flex-col order-2 lg:order-1 max-w-2xl">
+          <div className="flex flex-col items-center lg:items-start text-center lg:text-left order-2 lg:order-1 max-w-2xl mx-auto lg:mx-0">
 
             {/* Eyebrow — brand credential, tracked caps */}
             <motion.div {...fadeIn(0.05)}
@@ -116,7 +116,7 @@ export function Hero() {
 
             {/* Social proof line — tight, inline */}
             <motion.div {...fadeIn(0.3)}
-              className="flex items-center gap-2.5 mb-9"
+              className="flex items-center justify-center lg:justify-start gap-2.5 mb-9"
             >
               <div className="flex -space-x-1">
                 {["#1d7ed8","#2563eb","#1e40af","#0369a1"].map((c, i) => (
@@ -136,7 +136,7 @@ export function Hero() {
 
             {/* CTAs */}
             <motion.div {...fadeUp(0.32)}
-              className="flex flex-col sm:flex-row gap-3 mb-8"
+              className="flex flex-col sm:flex-row items-center lg:items-start gap-3 mb-8"
             >
               {/* Primary */}
               <a
@@ -173,7 +173,7 @@ export function Hero() {
 
             {/* Trust strip — horizontal, minimal */}
             <motion.div {...fadeIn(0.44)}
-              className="flex flex-wrap items-center gap-x-5 gap-y-2"
+              className="flex flex-wrap items-center justify-center lg:justify-start gap-x-5 gap-y-2"
             >
               {[
                 { icon: Truck,       label: "Free same-day delivery"   },
