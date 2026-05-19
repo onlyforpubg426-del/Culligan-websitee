@@ -34,7 +34,7 @@ export function Services() {
     <section
       id="services"
       className="relative py-24 overflow-hidden"
-      style={{ background: "linear-gradient(135deg, #003580 0%, #0055cc 55%, #1a7fd4 100%)" }}
+      style={{ background: "linear-gradient(140deg, #64b0f0 0%, #6ebaf2 40%, #82c8f6 75%, #9dd8fb 100%)" }}
     >
       <div className="absolute top-0 right-0 w-[500px] h-[500px] rounded-full bg-white/5 blur-3xl pointer-events-none" />
       <div className="absolute bottom-0 left-0 w-[400px] h-[400px] rounded-full bg-sky-400/10 blur-3xl pointer-events-none" />
