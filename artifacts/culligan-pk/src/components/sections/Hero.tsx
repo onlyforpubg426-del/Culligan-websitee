@@ -197,14 +197,15 @@ export function Hero() {
           >
             {/* Soft radial halo behind the image */}
             <div
-              className="absolute inset-[-10%] rounded-full blur-3xl opacity-30 pointer-events-none"
-              style={{ background: "radial-gradient(circle, #60a5fa 0%, transparent 70%)" }}
+              className="absolute inset-[-10%] rounded-full blur-3xl opacity-50 pointer-events-none"
+              style={{ background: "radial-gradient(circle, #93c5fd 0%, transparent 68%)" }}
             />
 
             {/* Image card */}
             <div className="relative w-full rounded-[2rem] overflow-hidden
-                            border border-white/15
-                            bg-white/5 backdrop-blur-sm">
+                            border border-white/30
+                            shadow-[0_20px_60px_rgba(33,150,243,0.35),0_2px_16px_rgba(255,255,255,0.18)]
+                            bg-white/10 backdrop-blur-sm">
               <img
                 src={`${BASE}/hero-product.jpg`}
                 alt="Culligan Water — Over 80 years of pure hydration"
@@ -222,12 +223,14 @@ export function Hero() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.7, duration: 0.4, ease: "easeOut" }}
               className="absolute -bottom-5 left-4
-                         bg-white rounded-2xl px-4 py-3
-                         shadow-[0_8px_32px_rgba(0,0,0,0.25)]
+                         bg-white/80 backdrop-blur-xl rounded-2xl px-4 py-3
+                         shadow-[0_8px_32px_rgba(33,150,243,0.22),0_1px_8px_rgba(255,255,255,0.3)]
+                         border border-white/70
                          flex items-center gap-3"
             >
-              <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary shrink-0">
-                <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <div className="w-8 h-8 rounded-full flex items-center justify-center shrink-0"
+                style={{ background: "linear-gradient(135deg,#64b0f0,#2196f3)" }}>
+                <svg className="h-3.5 w-3.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                 </svg>
               </div>
@@ -244,15 +247,15 @@ export function Hero() {
               transition={{ delay: 0.82, duration: 0.4, ease: "easeOut" }}
               className="absolute -top-5 right-4
                          rounded-2xl px-4 py-2.5
-                         shadow-[0_8px_32px_rgba(0,0,0,0.15)]
-                         border border-slate-100 backdrop-blur-xl
-                         bg-white"
+                         shadow-[0_8px_32px_rgba(33,150,243,0.22),0_1px_8px_rgba(255,255,255,0.3)]
+                         border border-white/70 backdrop-blur-xl
+                         bg-white/80"
             >
               <div className="flex items-center gap-1.5 mb-0.5">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 pulse-dot" />
+                <span className="w-2 h-2 rounded-full bg-emerald-400 pulse-dot shadow-[0_0_6px_rgba(52,211,153,0.7)]" />
                 <p className="text-[11px] font-bold text-slate-800 tracking-[0.02em]">Free Delivery</p>
               </div>
-              <p className="text-[10px] text-slate-400 tracking-[0.03em]">Same-day · Karachi</p>
+              <p className="text-[10px] text-slate-500 font-medium tracking-[0.03em]">Same-day · Karachi</p>
             </motion.div>
           </motion.div>
 
