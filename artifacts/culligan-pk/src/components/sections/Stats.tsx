@@ -12,7 +12,7 @@ export function Stats() {
   return (
     <section
       className="relative py-10 overflow-hidden"
-      style={{ background: "linear-gradient(135deg, #1a6fd4 0%, #2e8ee8 60%, #4aa8f5 100%)" }}
+      style={{ background: "linear-gradient(140deg, #64b0f0 0%, #6ebaf2 40%, #82c8f6 75%, #9dd8fb 100%)" }}
     >
       <div className="absolute -top-20 left-1/2 -translate-x-1/2 w-[600px] h-[200px] bg-white/10 rounded-full blur-3xl pointer-events-none" />
 
