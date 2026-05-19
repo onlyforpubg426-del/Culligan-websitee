@@ -144,7 +144,7 @@ export function Products() {
       {/* ════════════════════════════════════════════════════
           1. SECTION HERO BANNER
       ════════════════════════════════════════════════════ */}
-      <div className="relative overflow-hidden" style={{ background: "linear-gradient(135deg,#1259b8 0%,#1e7fe8 55%,#3ba8f5 100%)" }}>
+      <div className="relative overflow-hidden" style={{ background: "linear-gradient(135deg,#2196f3 0%,#42aaf5 55%,#72c8ff 100%)" }}>
         {/* Ripple rings — CSS divs, no SVG path issues */}
         {[0, 1, 2, 3].map((i) => (
           <motion.div
@@ -376,7 +376,7 @@ export function Products() {
       {/* ════════════════════════════════════════════════════
           3. WHY OUR WATER
       ════════════════════════════════════════════════════ */}
-      <div className="relative py-20 overflow-hidden" style={{ background: "linear-gradient(135deg,#1259b8 0%,#1a72d4 50%,#2e8ee8 100%)" }}>
+      <div className="relative py-20 overflow-hidden" style={{ background: "linear-gradient(135deg,#1e88e5 0%,#42a5f5 50%,#64baff 100%)" }}>
         <div className="absolute inset-0 opacity-5 pointer-events-none">
           <svg viewBox="0 0 100 100" className="w-full h-full" preserveAspectRatio="xMidYMid slice">
             <defs>
