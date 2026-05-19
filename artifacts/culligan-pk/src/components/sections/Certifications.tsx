@@ -23,7 +23,7 @@ export function Certifications() {
       <div className="container mx-auto px-4 md:px-6 relative z-10">
         <div className="flex flex-col lg:flex-row gap-16 items-center">
 
-          <div className="lg:w-1/3 shrink-0">
+          <div className="lg:w-1/3 shrink-0 flex flex-col items-center lg:items-start text-center lg:text-left">
             <motion.span
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
