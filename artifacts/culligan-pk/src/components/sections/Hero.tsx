@@ -20,7 +20,7 @@ export function Hero() {
     <section
       className="relative flex items-center overflow-hidden min-h-[100svh]"
       style={{
-        background: "linear-gradient(140deg, #001c4a 0%, #003580 40%, #0858d4 75%, #2e8ee8 100%)",
+        background: "linear-gradient(140deg, #1259b8 0%, #1a72d4 40%, #2e8ee8 75%, #4fb3f6 100%)",
       }}
     >
       {/* ── Background depth layers ── */}
@@ -64,7 +64,7 @@ export function Hero() {
 
       {/* ── Main content ── */}
       <div className="container mx-auto px-4 md:px-6 pt-28 pb-12 md:pt-40 md:pb-24 relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-10 lg:gap-20 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.2fr] gap-10 lg:gap-12 items-center">
 
           {/* ── Left: Copy ── */}
           <div className="flex flex-col order-2 lg:order-1 max-w-2xl">
@@ -84,7 +84,7 @@ export function Hero() {
             {/* Headline — ultra-tight, black weight, maximum size */}
             <motion.h1 {...fadeUp(0.12)}
               className="font-black text-white leading-[0.96] tracking-[-0.035em] mb-6"
-              style={{ fontSize: "clamp(2.8rem, 7vw, 5.5rem)" }}
+              style={{ fontSize: "clamp(2.4rem, 5.2vw, 4.5rem)" }}
             >
               Karachi's{" "}
               <br className="hidden sm:block" />
@@ -193,8 +193,7 @@ export function Hero() {
             initial={{ opacity: 0, scale: 0.9, x: 24 }}
             animate={{ opacity: 1, scale: 1, x: 0 }}
             transition={{ duration: 0.75, delay: 0.18, ease: [0.22, 1, 0.36, 1] }}
-            className="relative flex items-center justify-center order-1 lg:order-2 shrink-0"
-            style={{ width: "clamp(260px, 38vw, 520px)" }}
+            className="relative flex items-center justify-center order-1 lg:order-2 w-full"
           >
             {/* Soft radial halo behind the image */}
             <div
@@ -212,7 +211,7 @@ export function Hero() {
                 alt="Culligan Water — Over 80 years of pure hydration"
                 loading="eager"
                 className="w-full h-auto object-contain block"
-                style={{ maxHeight: "clamp(220px, 42vw, 560px)" }}
+                style={{ maxHeight: "clamp(280px, 55vw, 680px)" }}
               />
               {/* Inset ring */}
               <div className="absolute inset-0 rounded-[2rem] ring-1 ring-inset ring-white/10 pointer-events-none" />
