@@ -16,12 +16,12 @@ const bottles = [
 ];
 
 const bundles = [
-  { name: "Bachat Bundle",    image: "/bundles/bachat.jpg",     badge: "Savings" },
-  { name: "Family Bundle",    image: "/bundles/family.jpg",     badge: "Most Popular", popular: true },
-  { name: "Freshness Bundle", image: "/bundles/freshness.jpg" },
-  { name: "Hydration Bundle", image: "/bundles/hydration.jpg" },
-  { name: "Picnic Bundle",    image: "/bundles/picnic.jpg",     badge: "Seasonal" },
-  { name: "Purity Bundle",    image: "/bundles/purity.jpg" },
+  { name: "Bachat Bundle",    price: "Rs 1,200", image: "/bundles/bachat.jpg",     badge: "Savings" },
+  { name: "Family Bundle",    price: "Rs 2,500", image: "/bundles/family.jpg",     badge: "Most Popular", popular: true },
+  { name: "Freshness Bundle", price: "Rs 1,800", image: "/bundles/freshness.jpg" },
+  { name: "Hydration Bundle", price: "Rs 2,000", image: "/bundles/hydration.jpg" },
+  { name: "Picnic Bundle",    price: "Rs 900",   image: "/bundles/picnic.jpg",     badge: "Seasonal" },
+  { name: "Purity Bundle",    price: "Rs 1,500", image: "/bundles/purity.jpg" },
 ];
 
 const WA_URL = (text: string) =>
