@@ -20,7 +20,7 @@ export function Hero() {
     <section
       className="relative flex items-center overflow-hidden min-h-[100svh]"
       style={{
-        background: "linear-gradient(140deg, #1259b8 0%, #1a72d4 40%, #2e8ee8 75%, #4fb3f6 100%)",
+        background: "linear-gradient(140deg, #64b0f0 0%, #6ebaf2 40%, #82c8f6 75%, #9dd8fb 100%)",
       }}
     >
       {/* ── Background depth layers ── */}
@@ -263,7 +263,7 @@ export function Hero() {
       </div>
 
       {/* Bottom fade to next section */}
-      <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-[#0f1f40]/60 to-transparent pointer-events-none" />
+      <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-[#2196f3] to-transparent pointer-events-none" />
     </section>
   );
 }

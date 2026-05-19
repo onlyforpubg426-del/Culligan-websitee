@@ -135,7 +135,7 @@ export function Products() {
   };
 
   return (
-    <section id="products" className="relative overflow-hidden" style={{ background: "linear-gradient(180deg,#f0f7ff 0%,#ffffff 18%,#f8fbff 60%,#ffffff 100%)" }}>
+    <section id="products" className="relative overflow-hidden" style={{ background: "linear-gradient(180deg,#2196f3 0%,#f0f7ff 6%,#ffffff 22%,#f8fbff 62%,#ffffff 100%)" }}>
 
       {/* ── Decorative background blobs ────────────────────── */}
       <div className="absolute top-0 left-0 w-[600px] h-[600px] rounded-full bg-blue-100/40 blur-3xl -translate-x-1/2 -translate-y-1/2 pointer-events-none" />
