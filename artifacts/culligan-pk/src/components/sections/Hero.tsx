@@ -116,20 +116,10 @@ export function Hero() {
 
             {/* Social proof line — tight, inline */}
             <motion.div {...fadeIn(0.3)}
-              className="flex items-center justify-center lg:justify-start gap-2.5 mb-9"
+              className="flex items-center justify-center mb-9"
             >
-              <div className="flex -space-x-1">
-                {["#1d7ed8","#2563eb","#1e40af","#0369a1"].map((c, i) => (
-                  <div key={i}
-                    className="w-6 h-6 rounded-full border-2 border-[#003580] bg-blue-400/30 flex items-center justify-center text-[9px] font-bold text-white"
-                    style={{ background: c }}
-                  >
-                    {["A","S","R","F"][i]}
-                  </div>
-                ))}
-              </div>
-              <span className="text-[13px] text-white/55">
-                <span className="text-white/85 font-semibold">2,400+ families</span>
+              <span className="text-[13px] text-white/60">
+                <span className="text-white/90 font-bold">10,000+ families</span>
                 {" "}trust Culligan every month
               </span>
             </motion.div>
