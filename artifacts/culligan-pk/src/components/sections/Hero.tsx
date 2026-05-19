@@ -86,7 +86,7 @@ export function Hero() {
               className="font-black text-white leading-[0.96] tracking-[-0.035em] mb-6"
               style={{ fontSize: "clamp(2.4rem, 5.2vw, 4.5rem)" }}
             >
-              Karachi's{" "}
+              Pakistan's Most{" "}
               <br className="hidden sm:block" />
               <span
                 style={{
@@ -96,12 +96,12 @@ export function Hero() {
                   backgroundClip: "text",
                 }}
               >
-                Purest Water.
+                Trusted Water.
               </span>
               <br />
               <span className="text-white/90 font-extrabold tracking-[-0.025em]"
                 style={{ fontSize: "0.62em" }}>
-                Delivered to Your Door.
+                Certified Quality. Delivered to Your Door.
               </span>
             </motion.h1>
 
