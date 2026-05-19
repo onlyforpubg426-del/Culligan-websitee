@@ -150,9 +150,9 @@ export function Hero() {
               <a
                 href="#products"
                 className="inline-flex items-center justify-center gap-1.5 rounded-xl
-                           px-6 font-semibold text-[15px] tracking-[-0.01em]
-                           text-white/80 border border-white/20 backdrop-blur-sm
-                           hover:text-white hover:border-white/40 hover:bg-white/6
+                           px-6 font-bold text-[15px] tracking-[-0.01em]
+                           text-white border-2 border-white/70 bg-white/10 backdrop-blur-sm
+                           hover:bg-white/20 hover:border-white
                            transition-all duration-200"
                 style={{ height: "52px" }}
               >
