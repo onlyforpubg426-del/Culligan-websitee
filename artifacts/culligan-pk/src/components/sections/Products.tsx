@@ -196,7 +196,7 @@ export function Products() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.18 }}
-              className="mt-5 text-lg text-white/75 max-w-xl mx-auto leading-relaxed"
+              className="mt-5 text-xl font-semibold text-white/90 max-w-xl mx-auto leading-relaxed"
             >
               RO + Ozonation purified water in every size — from your morning bottle to your office dispenser.
               Free same-day delivery across Karachi.
