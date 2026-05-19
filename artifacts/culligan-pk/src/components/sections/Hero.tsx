@@ -63,8 +63,8 @@ export function Hero() {
       </div>
 
       {/* ── Main content ── */}
-      <div className="container mx-auto px-4 md:px-6 pt-28 pb-12 md:pt-40 md:pb-24 relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.2fr] gap-10 lg:gap-12 items-center">
+      <div className="container mx-auto px-4 md:px-8 lg:px-12 pt-24 pb-16 lg:pt-28 lg:pb-24 relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.05fr] gap-10 lg:gap-20 items-center min-h-[calc(100svh-112px)]">
 
           {/* ── Left: Copy ── */}
           <div className="flex flex-col items-center lg:items-start text-center lg:text-left order-2 lg:order-1 max-w-2xl mx-auto lg:mx-0">
@@ -84,7 +84,7 @@ export function Hero() {
             {/* Headline — ultra-tight, black weight, maximum size */}
             <motion.h1 {...fadeUp(0.12)}
               className="font-black text-white leading-[0.96] tracking-[-0.035em] mb-6"
-              style={{ fontSize: "clamp(2.4rem, 5.2vw, 4.5rem)" }}
+              style={{ fontSize: "clamp(2.4rem, 4.8vw, 5.4rem)" }}
             >
               Pakistan's Most{" "}
               <br className="hidden sm:block" />
@@ -107,8 +107,8 @@ export function Hero() {
 
             {/* Subheadline — short, benefit-first, human */}
             <motion.p {...fadeUp(0.22)}
-              className="text-white/65 leading-[1.65] mb-3"
-              style={{ fontSize: "clamp(0.95rem, 1.8vw, 1.125rem)", maxWidth: "38ch" }}
+              className="text-white/80 font-medium leading-[1.7] mb-3"
+              style={{ fontSize: "clamp(0.95rem, 1.6vw, 1.15rem)", maxWidth: "42ch" }}
             >
               RO-purified, ozonation-treated, government-certified water —
               free same-day delivery across Karachi.
@@ -193,7 +193,7 @@ export function Hero() {
             initial={{ opacity: 0, scale: 0.9, x: 24 }}
             animate={{ opacity: 1, scale: 1, x: 0 }}
             transition={{ duration: 0.75, delay: 0.18, ease: [0.22, 1, 0.36, 1] }}
-            className="relative flex items-center justify-center order-1 lg:order-2 w-full"
+            className="relative flex items-center justify-center order-1 lg:order-2 w-full lg:py-10"
           >
             {/* Soft radial halo behind the image */}
             <div
