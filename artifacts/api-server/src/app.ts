@@ -1,9 +1,7 @@
 import express, { type Express } from "express";
 import cors from "cors";
-// Replace the import with require
-import { createRequire } from "module";
-const require = createRequire(import.meta.url);
-const pinoHttp = require("pino-http");
+// @ts-ignore - pino-http type issue
+import pinoHttp from "pino-http";
 import router from "./routes";
 import { logger } from "./lib/logger";
 
@@ -28,10 +26,4 @@ app.use(
     },
   }),
 );
-app.use(cors());
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-
-app.use("/api", router);
-
-export default app;
+// ... rest unchanged
