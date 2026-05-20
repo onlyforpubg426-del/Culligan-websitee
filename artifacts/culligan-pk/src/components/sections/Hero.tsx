@@ -171,8 +171,8 @@ export function Hero() {
                 { icon: CheckCircle2,label: "Every batch lab-tested"   },
               ].map(({ icon: Icon, label }) => (
                 <div key={label} className="flex items-center gap-1.5">
-                  <Icon className="h-3.5 w-3.5 text-sky-400 shrink-0" strokeWidth={2} />
-                  <span className="text-[12.5px] text-white/55 font-medium">{label}</span>
+                  <Icon className="h-3.5 w-3.5 text-white/90 shrink-0" strokeWidth={2} />
+                  <span className="text-[12.5px] text-white/90 font-semibold">{label}</span>
                 </div>
               ))}
             </motion.div>
