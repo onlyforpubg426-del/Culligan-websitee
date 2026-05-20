@@ -1,0 +1,13 @@
+.migration-backup/
+scripts/
+lib/
+artifacts/api-server/
+artifacts/mockup-sandbox/
+.replit
+.replitignore
+replit.md
+attached_assets/
+.env
+.env.local
+node_modules/
+pnpm-lock.yaml
