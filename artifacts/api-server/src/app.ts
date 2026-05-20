@@ -1,4 +1,5 @@
-// @ts-nocheck import express, { type Express, Request, Response, NextFunction } from "express";
+// @ts-nocheck
+import express, { type Express, Request, Response, NextFunction } from "express";
 import cors from "cors";
 import router from "./routes";
 import { logger } from "./lib/logger";
