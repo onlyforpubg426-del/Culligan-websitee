@@ -1,4 +1,4 @@
-import express, { type Express, type Request, type Response, type NextFunction } from "express";
+import express, { type Express } from "express";
 import cors from "cors";
 import { pinoHttp } from "pino-http";
 import router from "./routes";
@@ -10,14 +10,14 @@ app.use(
   pinoHttp({
     logger,
     serializers: {
-      (req: any, res: any) => {
+      req(req: any) {
         return {
-          id: (req as any).id,
+          id: req.id,
           method: req.method,
           url: req.url?.split("?")[0],
         };
       },
-      (req: any, res: any) => {
+      res(res: any) {
         return {
           statusCode: res.statusCode,
         };
