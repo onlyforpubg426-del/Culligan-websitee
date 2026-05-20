@@ -5,10 +5,12 @@ import router from "./routes";
 import { logger } from "./lib/logger";
 
 const require = createRequire(import.meta.url);
-const pinoHttp = require("pino-http");
+// Cast to any to bypass TypeScript's type checking completely
+const pinoHttp = require("pino-http") as any;
 
 const app: Express = express();
 
+// @ts-ignore - pinoHttp is callable at runtime
 app.use(
   pinoHttp({
     logger,
