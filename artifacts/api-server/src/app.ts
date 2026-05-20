@@ -1,13 +1,13 @@
 import express, { type Express } from "express";
 import cors from "cors";
+import { createRequire } from "module";
 import router from "./routes";
 import { logger } from "./lib/logger";
 
-const app: Express = express();
-
-// Use require to bypass TypeScript's type checking issues
-// @ts-ignore - require is safe here
+const require = createRequire(import.meta.url);
 const pinoHttp = require("pino-http");
+
+const app: Express = express();
 
 app.use(
   pinoHttp({
