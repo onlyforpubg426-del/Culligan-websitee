@@ -131,15 +131,13 @@ export function Hero() {
               {/* Primary */}
               <a
                 href="#order"
-                className="group inline-flex items-center justify-center gap-2.5 rounded-xl
-                           px-7 font-bold text-[15px] tracking-[-0.01em]
-                           bg-white text-slate-900
-                           shadow-[0_4px_24px_rgba(0,0,0,0.35),0_1px_4px_rgba(0,0,0,0.2)]
-                           hover:bg-white/93 hover:shadow-[0_6px_32px_rgba(0,0,0,0.45)]
-                           transition-all duration-200"
-                style={{ height: "52px" }}
+                className="inline-flex items-center justify-center gap-2 rounded-lg
+                           px-5 font-semibold text-[14px] tracking-[-0.01em]
+                           bg-white/90 text-slate-800 border border-white/60
+                           hover:bg-white transition-colors duration-200"
+                style={{ height: "44px" }}
               >
-                <svg className="h-5 w-5 text-[#25D366] shrink-0" viewBox="0 0 24 24" fill="currentColor">
+                <svg className="h-4 w-4 text-[#25D366] shrink-0" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
                   <path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.122 1.533 5.854L.057 23.268a.75.75 0 00.917.915l5.428-1.473A11.955 11.955 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.93 0-3.741-.522-5.295-1.432l-.38-.223-3.923 1.065 1.068-3.898-.247-.394A9.956 9.956 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/>
                 </svg>
