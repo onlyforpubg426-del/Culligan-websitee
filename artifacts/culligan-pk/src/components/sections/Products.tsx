@@ -484,8 +484,11 @@ export function Products() {
                     {bottle.name}
                   </span>
                 </motion.div>
-
-                {/* Quick view overlay on hover */}
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  whileHover={{ o
+              </div>
+            </motion.div>
+          ))}
+        </motion.div>
+      </div>
+    </section>
+  );
+}
