@@ -2,7 +2,7 @@
   "buildCommand": "pnpm --filter @workspace/culligan-pk run build",
   "outputDirectory": "artifacts/culligan-pk/dist/public",
   "installCommand": "pnpm install --frozen-lockfile",
-  "nodeVersion": "20.x",
+  "framework": null,
   "env": {
     "NODE_ENV": "production",
     "BASE_PATH": "/"
