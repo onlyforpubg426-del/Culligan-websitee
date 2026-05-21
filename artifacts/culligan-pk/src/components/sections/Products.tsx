@@ -210,12 +210,6 @@ export function Products() {
               className="mt-8 flex flex-wrap items-center justify-center gap-3"
             >
               <a
-                href="#order"
-                className="inline-flex items-center gap-2 px-7 py-3 rounded-full bg-white text-primary font-bold text-sm shadow-xl hover:shadow-2xl hover:-translate-y-0.5 transition-all duration-200"
-              >
-                <MessageCircle className="h-4 w-4" /> Order on WhatsApp
-              </a>
-              <a
                 href="tel:11135353535"
                 className="inline-flex items-center gap-2 px-7 py-3 rounded-full bg-white/15 border border-white/35 text-white font-bold text-sm backdrop-blur-sm hover:bg-white/25 transition-all duration-200"
               >
