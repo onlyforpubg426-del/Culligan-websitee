@@ -12,47 +12,49 @@ const rawPort = process.env.PORT;
 const port = rawPort ? Number(rawPort) : 3000;
 const basePath = process.env.BASE_PATH ?? "/";
 
-const replitPlugins =
-  process.env.NODE_ENV !== "production" && isReplit
-    ? [
-        await import("@replit/vite-plugin-runtime-error-modal").then((m) =>
-          m.default(),
-        ),
-        await import("@replit/vite-plugin-cartographer").then((m) =>
-          m.cartographer({
-            root: path.resolve(import.meta.dirname, ".."),
-          }),
-        ),
-        await import("@replit/vite-plugin-dev-banner").then((m) =>
-          m.devBanner(),
-        ),
-      ]
-    : [];
+async function loadReplitPlugins() {
+  if (process.env.NODE_ENV !== "production" && isReplit) {
+    const runtimeErrorModal = await import("@replit/vite-plugin-runtime-error-modal");
+    const cartographer = await import("@replit/vite-plugin-cartographer");
+    
+    return [
+      runtimeErrorModal.default(),
+      cartographer.cartographer({
+        root: path.resolve(import.meta.dirname, ".."),
+      }),
+    ];
+  }
+  return [];
+}
 
-export default defineConfig({
-  base: basePath,
-  plugins: [react(), tailwindcss(), ...replitPlugins],
-  resolve: {
-    alias: {
-      "@": path.resolve(import.meta.dirname, "src"),
+export default defineConfig(async () => {
+  const replitPlugins = await loadReplitPlugins();
+  
+  return {
+    base: basePath,
+    plugins: [react(), tailwindcss(), ...replitPlugins],
+    resolve: {
+      alias: {
+        "@": path.resolve(import.meta.dirname, "src"),
+      },
+      dedupe: ["react", "react-dom"],
     },
-    dedupe: ["react", "react-dom"],
-  },
-  root: path.resolve(import.meta.dirname),
-  build: {
-    outDir: path.resolve(import.meta.dirname, "dist/public"),
-    emptyOutDir: true,
-  },
-  server: {
-    port,
-    strictPort: true,
-    host: "0.0.0.0",
-    allowedHosts: true,
-    fs: { strict: true },
-  },
-  preview: {
-    port,
-    host: "0.0.0.0",
-    allowedHosts: true,
-  },
+    root: path.resolve(import.meta.dirname),
+    build: {
+      outDir: path.resolve(import.meta.dirname, "dist/public"),
+      emptyOutDir: true,
+    },
+    server: {
+      port,
+      strictPort: true,
+      host: "0.0.0.0",
+      allowedHosts: true,
+      fs: { strict: true },
+    },
+    preview: {
+      port,
+      host: "0.0.0.0",
+      allowedHosts: true,
+    },
+  };
 });

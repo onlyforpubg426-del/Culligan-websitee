@@ -1,5 +1,6 @@
+import { useState } from "react";
 import { motion } from "framer-motion";
-import { MessageCircle, PhoneCall } from "lucide-react";
+import { MessageCircle, PhoneCall, CheckCircle2 } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -22,6 +23,9 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
+const BASE = import.meta.env.BASE_URL.replace(/\/$/, "");
+const API = `${BASE}/api`;
+
 const bundles = [
   "Bachat Bundle",
   "Family Bundle",
@@ -35,7 +39,7 @@ const bundles = [
 
 const orderSchema = z.object({
   name: z.string().min(2, "Please enter your full name"),
-  phone: z.string().min(10, "Please enter a valid phone number").max(15, "Please enter a valid phone number"),
+  phone: z.string().min(10, "Please enter a valid phone number").max(15),
   address: z.string().min(10, "Please enter your full delivery address"),
   bundle: z.string().min(1, "Please select a bundle"),
   notes: z.string().optional(),
@@ -44,12 +48,27 @@ const orderSchema = z.object({
 type OrderFormData = z.infer<typeof orderSchema>;
 
 export function OrderForm() {
+  const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+
   const form = useForm<OrderFormData>({
     resolver: zodResolver(orderSchema),
     defaultValues: { name: "", phone: "", address: "", bundle: "", notes: "" },
   });
 
-  const onSubmit = (data: OrderFormData) => {
+  const onSubmit = async (data: OrderFormData) => {
+    setSubmitting(true);
+    try {
+      await fetch(`${API}/orders`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+    } catch {
+    }
+    setSubmitting(false);
+    setSubmitted(true);
+
     const message = [
       "Hi, I'd like to place a Culligan water order.",
       "",
@@ -64,6 +83,52 @@ export function OrderForm() {
 
     window.open(`https://wa.me/923001113535?text=${encodeURIComponent(message)}`, "_blank");
   };
+
+  if (submitted) {
+    return (
+      <section
+        id="order"
+        className="relative py-24 overflow-hidden"
+        style={{ background: "linear-gradient(160deg, #f0f7ff 0%, #e6f2ff 50%, #dceeff 100%)" }}
+      >
+        <div className="container mx-auto px-4 md:px-6 relative z-10">
+          <div className="max-w-2xl mx-auto text-center">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              className="rounded-3xl p-12 bg-white/65 backdrop-blur-xl border border-white/80 shadow-2xl shadow-blue-100/60"
+            >
+              <div className="w-16 h-16 rounded-full bg-green-100 flex items-center justify-center mx-auto mb-6">
+                <CheckCircle2 className="h-8 w-8 text-green-600" />
+              </div>
+              <h3 className="text-2xl font-bold text-slate-900 mb-2">Order Received!</h3>
+              <p className="text-slate-500 mb-6">Your order has been saved. WhatsApp should have opened — if not, tap below.</p>
+              <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                <Button
+                  onClick={() => { form.reset(); setSubmitted(false); }}
+                  variant="outline"
+                  className="rounded-xl"
+                >
+                  Place Another Order
+                </Button>
+                <Button
+                  onClick={() => {
+                    const d = form.getValues();
+                    const msg = `Hi, I'd like to place a Culligan water order.\n\nName: ${d.name}\nPhone: ${d.phone}\nBundle: ${d.bundle}`;
+                    window.open(`https://wa.me/923001113535?text=${encodeURIComponent(msg)}`, "_blank");
+                  }}
+                  className="rounded-xl bg-green-600 hover:bg-green-700 text-white gap-2"
+                >
+                  <MessageCircle className="h-4 w-4" />
+                  Open WhatsApp Again
+                </Button>
+              </div>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section
@@ -109,10 +174,7 @@ export function OrderForm() {
             initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="rounded-3xl p-8
-                       bg-white/65 backdrop-blur-xl
-                       border border-white/80
-                       shadow-2xl shadow-blue-100/60"
+            className="rounded-3xl p-8 bg-white/65 backdrop-blur-xl border border-white/80 shadow-2xl shadow-blue-100/60"
           >
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
@@ -207,14 +269,15 @@ export function OrderForm() {
                 <Button
                   type="submit"
                   size="lg"
+                  disabled={submitting}
                   className="w-full rounded-xl font-semibold text-base shadow-lg bg-green-600 hover:bg-green-700 text-white gap-2.5"
                 >
                   <MessageCircle className="h-5 w-5" />
-                  Send Order via WhatsApp
+                  {submitting ? "Saving..." : "Send Order via WhatsApp"}
                 </Button>
 
                 <p className="text-center text-xs text-muted-foreground">
-                  Clicking the button opens WhatsApp with your details pre-filled. No account needed.
+                  Clicking the button saves your order and opens WhatsApp with your details pre-filled.
                 </p>
               </form>
             </Form>

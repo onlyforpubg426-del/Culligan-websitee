@@ -15,6 +15,8 @@ import { Calculator } from "@/components/sections/Calculator";
 import { Services } from "@/components/sections/Services";
 import { Testimonials } from "@/components/sections/Testimonials";
 import { OrderForm } from "@/components/sections/OrderForm";
+import { RetailOutlets } from "@/components/sections/RetailOutlets";
+import Admin from "@/pages/Admin";
 import NotFound from "@/pages/not-found";
 
 const queryClient = new QueryClient();
@@ -33,6 +35,7 @@ function Home() {
         <Calculator />
         <Services />
         <Testimonials />
+        <RetailOutlets />
         <OrderForm />
       </main>
       <Footer />
@@ -45,6 +48,7 @@ function Router() {
   return (
     <Switch>
       <Route path="/" component={Home} />
+      <Route path="/admin" component={Admin} />
       <Route component={NotFound} />
     </Switch>
   );
