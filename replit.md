@@ -1,44 +1,58 @@
-# [Project name]
+# Culligan Pakistan
 
-_Replace the heading above with the project's name, and this line with one sentence describing what this app does for users._
+Culligan Water Pakistan e-commerce site — lets customers browse water products, calculate costs, and place orders via WhatsApp. Includes an admin dashboard to manage orders.
 
 ## Run & Operate
 
-- `pnpm --filter @workspace/api-server run dev` — run the API server (port 5000)
+- `pnpm --filter @workspace/culligan-pk run dev` — run the frontend (port 25549)
+- `pnpm --filter @workspace/api-server run dev` — run the API server (port 8080)
 - `pnpm run typecheck` — full typecheck across all packages
-- `pnpm run build` — typecheck + build all packages
 - `pnpm --filter @workspace/api-spec run codegen` — regenerate API hooks and Zod schemas from the OpenAPI spec
 - `pnpm --filter @workspace/db run push` — push DB schema changes (dev only)
 - Required env: `DATABASE_URL` — Postgres connection string
+- Required env: `GITHUB_TOKEN` — GitHub PAT with repo scope (for pushes)
 
 ## Stack
 
 - pnpm workspaces, Node.js 24, TypeScript 5.9
+- Frontend: React + Vite, Tailwind CSS v4, shadcn/ui, framer-motion, wouter
 - API: Express 5
-- DB: PostgreSQL + Drizzle ORM
+- DB: PostgreSQL + Drizzle ORM (orders table)
 - Validation: Zod (`zod/v4`), `drizzle-zod`
 - API codegen: Orval (from OpenAPI spec)
-- Build: esbuild (CJS bundle)
+- Build: esbuild (CJS bundle for api-server)
 
 ## Where things live
 
-_Populate as you build — short repo map plus pointers to the source-of-truth file for DB schema, API contracts, theme files, etc._
+- `artifacts/culligan-pk/src/` — React frontend (components, pages, hooks)
+- `artifacts/culligan-pk/src/components/sections/` — page sections (Hero, Products, OrderForm, etc.)
+- `artifacts/culligan-pk/src/pages/Admin.tsx` — admin dashboard at /admin
+- `artifacts/api-server/src/routes/orders.ts` — POST/GET/PATCH order routes
+- `lib/db/src/schema/orders.ts` — orders table schema (source of truth)
+- `lib/api-spec/openapi.yaml` — OpenAPI spec
+- `vercel.json` — Vercel deployment config (frontend only, framework: null)
 
 ## Architecture decisions
 
-_Populate as you build — non-obvious choices a reader couldn't infer from the code (3-5 bullets)._
+- Orders flow: form POSTs to `/api/orders` (saves to DB) then opens WhatsApp with pre-filled message
+- Admin at `/admin` — no auth, internal use only
+- API server runs on Replit; Vercel hosts the static frontend only
+- `BASE_URL` used throughout frontend for API calls so it works on both Replit and Vercel
 
 ## Product
 
-_Describe the high-level user-facing capabilities of this app once they exist._
+Culligan Pakistan water delivery site for Karachi. Customers can browse bottle sizes and bundles, use a savings calculator, and place orders. Orders are saved to a database and visible in the admin dashboard where staff can update order status (new → confirmed → delivered/cancelled).
 
 ## User preferences
 
-_Populate as you build — explicit user instructions worth remembering across sessions._
+- **Auto-push to GitHub after every change** — always push to `origin main` using `GITHUB_TOKEN` without asking.
+  Push command: `git --no-optional-locks push https://x-access-token:${GITHUB_TOKEN}@github.com/onlyforpubg426-del/Culligan-websitee.git main`
 
 ## Gotchas
 
-_Populate as you build — sharp edges, "always run X before Y" rules._
+- The `.migration-backup/` workflows always fail — that's expected, they're a backup copy and have no installed node_modules.
+- `pnpm -r run build` will fail on Vercel because it tries to build api-server and db packages. Use `pnpm --filter @workspace/culligan-pk run build` instead (already in vercel.json).
+- DB schema push needed when orders schema changes: `pnpm --filter @workspace/db run push`
 
 ## Pointers
 
