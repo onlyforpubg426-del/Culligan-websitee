@@ -159,19 +159,32 @@ export function Hero() {
               </a>
             </motion.div>
 
-            {/* Trust strip — horizontal, minimal */}
+            {/* Trust pills */}
             <motion.div {...fadeIn(0.44)}
-              className="flex flex-wrap items-center justify-center lg:justify-start gap-x-5 gap-y-2"
+              className="flex flex-wrap items-center justify-center lg:justify-start gap-2.5"
             >
               {[
-                { icon: Truck,       label: "Free same-day delivery"   },
-                { icon: ShieldCheck, label: "Govt. certified purity"   },
-                { icon: CheckCircle2,label: "Every batch lab-tested"   },
-              ].map(({ icon: Icon, label }) => (
-                <div key={label} className="flex items-center gap-1.5">
-                  <Icon className="h-3.5 w-3.5 text-white/90 shrink-0" strokeWidth={2} />
-                  <span className="text-[12.5px] text-white/90 font-semibold">{label}</span>
-                </div>
+                { icon: Truck,        label: "Free same-day delivery", color: "text-sky-300",     bg: "bg-sky-400/20"     },
+                { icon: ShieldCheck,  label: "Govt. certified purity", color: "text-emerald-300", bg: "bg-emerald-400/20" },
+                { icon: CheckCircle2, label: "Every batch lab-tested", color: "text-violet-300",  bg: "bg-violet-400/20"  },
+              ].map(({ icon: Icon, label, color, bg }, i) => (
+                <motion.div
+                  key={label}
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.5 + i * 0.08, duration: 0.4 }}
+                  className="flex items-center gap-2 pl-1.5 pr-4 py-1.5
+                             rounded-full border border-white/20
+                             bg-white/10 backdrop-blur-md
+                             hover:bg-white/15 transition-colors duration-200"
+                >
+                  <span className={`flex items-center justify-center w-6 h-6 rounded-full shrink-0 ${bg}`}>
+                    <Icon className={`h-3.5 w-3.5 ${color} shrink-0`} strokeWidth={2.2} />
+                  </span>
+                  <span className="text-[12px] text-white font-semibold tracking-[-0.01em] whitespace-nowrap">
+                    {label}
+                  </span>
+                </motion.div>
               ))}
             </motion.div>
           </div>
