@@ -135,7 +135,7 @@ export function Products() {
   };
 
   return (
-    <section id="products" className="relative overflow-hidden" style={{ background: "linear-gradient(180deg,#2196f3 0%,#f0f7ff 6%,#ffffff 22%,#f8fbff 62%,#ffffff 100%)" }}>
+    <section id="products" className="relative overflow-hidden" style={{ background: "linear-gradient(180deg,#90caf9 0%,#f0f7ff 8%,#ffffff 24%,#f8fbff 62%,#ffffff 100%)" }}>
 
       {/* ── Decorative background blobs ────────────────────── */}
       <div className="absolute top-0 left-0 w-[600px] h-[600px] rounded-full bg-blue-100/40 blur-3xl -translate-x-1/2 -translate-y-1/2 pointer-events-none" />
@@ -144,7 +144,7 @@ export function Products() {
       {/* ════════════════════════════════════════════════════
           1. SECTION HERO BANNER
       ════════════════════════════════════════════════════ */}
-      <div className="relative overflow-hidden" style={{ background: "linear-gradient(135deg,#2196f3 0%,#42aaf5 55%,#72c8ff 100%)" }}>
+      <div className="relative overflow-hidden" style={{ background: "linear-gradient(135deg,#64b0f0 0%,#82c8f6 55%,#a8dbfc 100%)" }}>
         {/* Ripple rings — CSS divs, no SVG path issues */}
         {[0, 1, 2, 3].map((i) => (
           <motion.div
