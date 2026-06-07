@@ -55,14 +55,8 @@ export function Hero() {
               height: r.size,
               left: `calc(${r.cx} - ${r.size / 2}px)`,
               top:  `calc(${r.cy} - ${r.size / 2}px)`,
-              border: "1px solid rgba(148,210,255,0.55)",
-              boxShadow: [
-                "0 0 0 1px rgba(255,255,255,0.12) inset",
-                "0 0 18px rgba(100,180,255,0.18)",
-                "0 0 32px rgba(100,180,255,0.10) inset",
-                "0 0 2px rgba(255,255,255,0.35) inset",
-              ].join(", "),
-              background: "radial-gradient(ellipse at 38% 32%, rgba(255,255,255,0.07) 0%, transparent 60%)",
+              border: "1.5px solid rgba(33,150,243,0.22)",
+              boxShadow: "0 0 12px rgba(33,150,243,0.08) inset",
               animationDuration: r.dur,
               animationDelay: r.delay,
             }}
