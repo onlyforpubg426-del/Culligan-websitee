@@ -36,16 +36,16 @@ export function Hero() {
       {/* ── Water ripples ── */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         {[
-          { cx: "18%",  cy: "30%", size: 320, dur: "4.2s", delay: "0s"    },
-          { cx: "18%",  cy: "30%", size: 320, dur: "4.2s", delay: "1.4s"  },
-          { cx: "18%",  cy: "30%", size: 320, dur: "4.2s", delay: "2.8s"  },
-          { cx: "72%",  cy: "60%", size: 420, dur: "5.5s", delay: "0.8s"  },
-          { cx: "72%",  cy: "60%", size: 420, dur: "5.5s", delay: "2.6s"  },
-          { cx: "72%",  cy: "60%", size: 420, dur: "5.5s", delay: "4.4s"  },
-          { cx: "45%",  cy: "80%", size: 260, dur: "3.8s", delay: "1.9s"  },
-          { cx: "45%",  cy: "80%", size: 260, dur: "3.8s", delay: "3.8s"  },
-          { cx: "88%",  cy: "18%", size: 200, dur: "4.8s", delay: "0.4s"  },
-          { cx: "88%",  cy: "18%", size: 200, dur: "4.8s", delay: "2.8s"  },
+          { cx: "18%",  cy: "30%", size: 320, dur: "13s",  delay: "0s"    },
+          { cx: "18%",  cy: "30%", size: 320, dur: "13s",  delay: "4.3s"  },
+          { cx: "18%",  cy: "30%", size: 320, dur: "13s",  delay: "8.6s"  },
+          { cx: "72%",  cy: "60%", size: 420, dur: "17s",  delay: "0.8s"  },
+          { cx: "72%",  cy: "60%", size: 420, dur: "17s",  delay: "6.5s"  },
+          { cx: "72%",  cy: "60%", size: 420, dur: "17s",  delay: "12.2s" },
+          { cx: "45%",  cy: "80%", size: 260, dur: "12s",  delay: "1.9s"  },
+          { cx: "45%",  cy: "80%", size: 260, dur: "12s",  delay: "7.9s"  },
+          { cx: "88%",  cy: "18%", size: 200, dur: "14s",  delay: "0.4s"  },
+          { cx: "88%",  cy: "18%", size: 200, dur: "14s",  delay: "7.4s"  },
         ].map((r, i) => (
           <div
             key={i}
