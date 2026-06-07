@@ -128,7 +128,8 @@ function TopicBreakdownChart({ leads }: { leads: Lead[] }) {
     <div className="bg-white rounded-2xl border border-slate-200 p-6 mb-6">
       <p className="text-sm font-bold text-slate-800 mb-0.5">Topic Breakdown</p>
       <p className="text-xs text-slate-400 mb-5">Enquiries grouped by selected interest</p>
-      <ResponsiveContainer width="100%" height={data.length * 46 + 16}>
+      <div style={{ width: "100%", minWidth: 0 }}>
+      <ResponsiveContainer width="99%" height={data.length * 46 + 16}>
         <BarChart
           data={data}
           layout="vertical"
@@ -158,6 +159,7 @@ function TopicBreakdownChart({ leads }: { leads: Lead[] }) {
           </Bar>
         </BarChart>
       </ResponsiveContainer>
+      </div>
     </div>
   );
 }
@@ -230,7 +232,8 @@ function VolumeChart({
           <p className="text-xs text-slate-400">total · peak {peak}/day</p>
         </div>
       </div>
-      <ResponsiveContainer width="100%" height={140}>
+      <div style={{ width: "100%", minWidth: 0 }}>
+      <ResponsiveContainer width="99%" height={140}>
         <AreaChart data={data} margin={{ top: 4, right: 4, bottom: 0, left: -20 }}>
           <defs>
             <linearGradient id={gradientId} x1="0" y1="0" x2="0" y2="1">
@@ -264,6 +267,7 @@ function VolumeChart({
           />
         </AreaChart>
       </ResponsiveContainer>
+      </div>
     </div>
   );
 }
