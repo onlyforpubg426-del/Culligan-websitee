@@ -34,7 +34,68 @@ const proofPoints = [
   },
 ];
 
+const guaranteeCard = {
+  icon: CheckCircle2,
+  title: "Delivery & Quality Guarantee",
+  description: "Every order backed by our delivery and quality guarantee — or we make it right.",
+  accent: { from: "#dbeafe", to: "#eff6ff", border: "#93c5fd", icon: "#1976d2", glow: "rgba(25,118,210,0.12)" },
+};
+
+function ProofCard({ point }: { point: typeof proofPoints[0] }) {
+  const Icon = point.icon;
+  return (
+    <div
+      className="relative flex gap-4 p-5 rounded-2xl bg-white border overflow-hidden mb-3 shrink-0"
+      style={{
+        borderColor: point.accent.border,
+        boxShadow: `0 2px 16px 0 ${point.accent.glow}, 0 1px 4px rgba(0,0,0,0.03)`,
+      }}
+    >
+      <div
+        className="absolute left-0 top-0 bottom-0 w-[3px] rounded-r-full"
+        style={{ background: `linear-gradient(to bottom, ${point.accent.border}, ${point.accent.from})` }}
+      />
+      <div
+        className="w-11 h-11 rounded-xl flex items-center justify-center shrink-0"
+        style={{
+          background: `linear-gradient(135deg, ${point.accent.from}, ${point.accent.to})`,
+          border: `1.5px solid ${point.accent.border}`,
+        }}
+      >
+        <Icon className="h-5 w-5" style={{ color: point.accent.icon }} />
+      </div>
+      <div>
+        <h4 className="font-bold text-slate-900 text-sm mb-1">{point.title}</h4>
+        <p className="text-xs text-slate-500 leading-relaxed">{point.description}</p>
+      </div>
+    </div>
+  );
+}
+
+function VerticalMarqueeCol({ cards, reverse = false }: { cards: typeof proofPoints; reverse?: boolean }) {
+  const doubled = [...cards, ...cards];
+  return (
+    <div className="relative flex-1 overflow-hidden h-[420px]">
+      {/* Top fade */}
+      <div className="absolute top-0 inset-x-0 h-16 z-10 pointer-events-none"
+        style={{ background: "linear-gradient(to bottom, #f5fbff, transparent)" }} />
+      {/* Bottom fade */}
+      <div className="absolute bottom-0 inset-x-0 h-16 z-10 pointer-events-none"
+        style={{ background: "linear-gradient(to top, #f5fbff, transparent)" }} />
+
+      <div className={reverse ? "cert-col-reverse" : "cert-col"}>
+        {doubled.map((card, i) => (
+          <ProofCard key={`${card.title}-${i}`} point={card} />
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export function Certifications() {
+  const colA = [proofPoints[0], proofPoints[2], proofPoints[4], guaranteeCard];
+  const colB = [proofPoints[1], proofPoints[3], guaranteeCard, proofPoints[0]];
+
   return (
     <section
       id="certifications"
@@ -50,15 +111,13 @@ export function Certifications() {
         className="absolute bottom-0 left-0 w-[420px] h-[420px] rounded-full pointer-events-none opacity-30"
         style={{ background: "radial-gradient(circle, #ede9fe 0%, transparent 65%)", transform: "translate(-28%, 28%)" }}
       />
-
-      {/* Dot pattern */}
       <div
         className="absolute inset-0 pointer-events-none opacity-[0.025]"
         style={{ backgroundImage: "radial-gradient(#1e40af 1px, transparent 1px)", backgroundSize: "28px 28px" }}
       />
 
       <div className="container mx-auto px-4 md:px-6 relative z-10">
-        <div className="flex flex-col lg:flex-row gap-14 items-start">
+        <div className="flex flex-col lg:flex-row gap-14 items-center">
 
           {/* ── Left column — header + quote ── */}
           <div className="lg:w-80 shrink-0">
@@ -130,76 +189,45 @@ export function Certifications() {
             </motion.div>
           </div>
 
-          {/* ── Right column — proof point cards ── */}
-          <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {proofPoints.map((point, i) => {
-              const Icon = point.icon;
-              return (
-                <motion.div
-                  key={point.title}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.09 }}
-                  whileHover={{ y: -4, transition: { duration: 0.2 } }}
-                  className="group relative flex gap-4 p-5 rounded-2xl bg-white border overflow-hidden transition-all duration-300"
-                  style={{
-                    borderColor: point.accent.border,
-                    boxShadow: `0 2px 16px 0 ${point.accent.glow}, 0 1px 4px rgba(0,0,0,0.03)`,
-                  }}
-                >
-                  {/* Left accent bar */}
-                  <div
-                    className="absolute left-0 top-0 bottom-0 w-[3px] rounded-r-full"
-                    style={{ background: `linear-gradient(to bottom, ${point.accent.border}, ${point.accent.from})` }}
-                  />
-
-                  {/* Icon */}
-                  <div
-                    className="w-11 h-11 rounded-xl flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform duration-200"
-                    style={{
-                      background: `linear-gradient(135deg, ${point.accent.from}, ${point.accent.to})`,
-                      border: `1.5px solid ${point.accent.border}`,
-                    }}
-                  >
-                    <Icon className="h-5 w-5" style={{ color: point.accent.icon }} />
-                  </div>
-
-                  <div>
-                    <h4 className="font-bold text-slate-900 text-sm mb-1">{point.title}</h4>
-                    <p className="text-xs text-slate-500 leading-relaxed">{point.description}</p>
-                  </div>
-                </motion.div>
-              );
-            })}
-
-            {/* Guarantee chip */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: proofPoints.length * 0.09 }}
-              className="flex gap-4 items-center p-5 rounded-2xl border"
-              style={{
-                background: "linear-gradient(135deg,#eff6ff,#dbeafe)",
-                borderColor: "#bfdbfe",
-                boxShadow: "0 2px 16px rgba(29,78,216,0.10)",
-              }}
-            >
-              <div
-                className="w-11 h-11 rounded-xl flex items-center justify-center shrink-0"
-                style={{ background: "#1976d2", boxShadow: "0 4px 12px rgba(25,118,210,0.30)" }}
-              >
-                <CheckCircle2 className="h-6 w-6 text-white" />
-              </div>
-              <p className="text-sm font-bold text-blue-900 leading-snug">
-                Every order backed by our delivery and quality guarantee.
-              </p>
-            </motion.div>
-          </div>
+          {/* ── Right column — vertical marquee ── */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.15 }}
+            className="flex-1 flex gap-3 min-w-0"
+          >
+            <VerticalMarqueeCol cards={colA} />
+            <VerticalMarqueeCol cards={colB} reverse />
+          </motion.div>
 
         </div>
       </div>
+
+      <style>{`
+        .cert-col {
+          display: flex;
+          flex-direction: column;
+          animation: cert-scroll-up 18s linear infinite;
+        }
+        .cert-col-reverse {
+          display: flex;
+          flex-direction: column;
+          animation: cert-scroll-down 22s linear infinite;
+        }
+        .cert-col:hover,
+        .cert-col-reverse:hover {
+          animation-play-state: paused;
+        }
+        @keyframes cert-scroll-up {
+          0%   { transform: translateY(0); }
+          100% { transform: translateY(-50%); }
+        }
+        @keyframes cert-scroll-down {
+          0%   { transform: translateY(-50%); }
+          100% { transform: translateY(0); }
+        }
+      `}</style>
     </section>
   );
 }
