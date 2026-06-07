@@ -39,20 +39,45 @@ export default function ContactPage() {
     path: "/contact",
   });
   const [form, setForm] = useState<FormState>(empty);
+  const [submitted, setSubmitted] = useState<FormState | null>(null);
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState("");
+
+  const PK_PHONE = /^(\+92|0)3[0-9]{9}$/;
+  const validatePhone = (v: string) => PK_PHONE.test(v.replace(/[\s\-]/g, ""));
 
   useEffect(() => { window.scrollTo(0, 0); }, []);
 
   const set = (k: keyof FormState) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) =>
     setForm((f) => ({ ...f, [k]: e.target.value }));
 
+  const buildWaMessage = (f: FormState) =>
+    encodeURIComponent(
+      [
+        "Hi, I just sent a message via your website contact form.",
+        "",
+        `Name: ${f.name}`,
+        `Phone: ${f.phone}`,
+        f.email ? `Email: ${f.email}` : "",
+        `Subject: ${f.subject}`,
+        `Message: ${f.message}`,
+        "",
+        "Please get back to me. Thank you!",
+      ]
+        .filter(Boolean)
+        .join("\n")
+    );
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
     if (!form.name.trim() || !form.phone.trim() || !form.subject || !form.message.trim()) {
       setError("Please fill in all required fields.");
+      return;
+    }
+    if (!validatePhone(form.phone)) {
+      setError("Enter a valid Pakistani mobile number (e.g. 0300 1234567).");
       return;
     }
     setLoading(true);
@@ -63,6 +88,7 @@ export default function ContactPage() {
         body: JSON.stringify(form),
       });
       if (!res.ok) throw new Error();
+      setSubmitted(form);
       setSuccess(true);
       setForm(empty);
     } catch {
@@ -215,15 +241,26 @@ export default function ContactPage() {
                     <div>
                       <h3 className="text-xl font-black text-slate-900 mb-2">Message sent!</h3>
                       <p className="text-sm text-slate-500 max-w-xs">
-                        We've received your enquiry and will get back to you within 1–2 business days. For urgent matters, please call or WhatsApp us directly.
+                        We've received your message and will get back to you within 1–2 business days. For a faster reply, confirm via WhatsApp now.
                       </p>
                     </div>
-                    <button
-                      onClick={() => setSuccess(false)}
-                      className="mt-2 text-sm font-semibold text-[#1d6fa4] hover:underline"
-                    >
-                      Send another message
-                    </button>
+                    <div className="flex flex-col sm:flex-row gap-3 mt-1">
+                      <a
+                        href={`https://wa.me/923222584525?text=${submitted ? buildWaMessage(submitted) : ""}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center justify-center gap-2 bg-green-500 hover:bg-green-600 text-white font-semibold px-6 py-3 rounded-xl transition-colors text-sm"
+                      >
+                        <MessageSquare className="w-4 h-4" />
+                        Confirm via WhatsApp
+                      </a>
+                      <button
+                        onClick={() => { setSuccess(false); setSubmitted(null); }}
+                        className="inline-flex items-center justify-center gap-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold px-6 py-3 rounded-xl transition-colors text-sm"
+                      >
+                        Send another message
+                      </button>
+                    </div>
                   </div>
                 ) : (
                   <form onSubmit={handleSubmit} className="space-y-5">
