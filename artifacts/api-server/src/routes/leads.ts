@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { z } from "zod";
-import { leads, createLead } from "../lib/store";
+import { getAllLeads, createLead } from "../lib/store";
 
 const router = Router();
 
@@ -11,17 +11,18 @@ const CreateLeadSchema = z.object({
   message: z.string().optional(),
 });
 
-router.get("/leads", (_req, res) => {
+router.get("/leads", async (_req, res) => {
+  const leads = await getAllLeads();
   res.json(leads);
 });
 
-router.post("/leads", (req, res) => {
+router.post("/leads", async (req, res) => {
   const result = CreateLeadSchema.safeParse(req.body);
   if (!result.success) {
     res.status(400).json({ error: "Invalid lead data", details: result.error.issues });
     return;
   }
-  const lead = createLead(result.data);
+  const lead = await createLead(result.data);
   res.status(201).json(lead);
 });
 
