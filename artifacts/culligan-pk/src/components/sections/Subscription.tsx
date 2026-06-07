@@ -52,7 +52,21 @@ export function Subscription() {
   const set = (k: keyof FormState, v: string) =>
     setForm((f) => ({ ...f, [k]: v }));
 
+  const PK_PHONE = /^(\+92|0)3[0-9]{9}$/;
+
+  const validatePhone = (raw: string) =>
+    PK_PHONE.test(raw.replace(/[\s\-]/g, ""));
+
+  const waMessage = () =>
+    encodeURIComponent(
+      `Hi! I just set up a ${form.frequency} subscription for ${form.bundle} (${form.deliveryDay}s).\n\nName: ${form.name}\nPhone: ${form.phone}\nAddress: ${form.address}${form.notes ? `\nNotes: ${form.notes}` : ""}\n\nPlease confirm my first delivery. Thank you!`
+    );
+
   const submit = async () => {
+    if (!validatePhone(form.phone)) {
+      setError("Enter a valid Pakistani mobile number (e.g. 0300 1234567)");
+      return;
+    }
     setLoading(true);
     setError("");
     try {
@@ -71,6 +85,7 @@ export function Subscription() {
       });
       if (!res.ok) throw new Error("Server error");
       setStep("done");
+      window.open(`https://wa.me/923222584525?text=${waMessage()}`, "_blank");
     } catch {
       setError("Something went wrong. Please try again or call 111 35 35 35.");
     } finally {
@@ -356,7 +371,7 @@ export function Subscription() {
                   </div>
                   <h3 className="text-2xl font-black text-slate-900 mb-2">You're subscribed!</h3>
                   <p className="text-slate-500 mb-1">
-                    We'll confirm your first <strong>{form.deliveryDay}</strong> delivery by phone.
+                    WhatsApp should have opened to confirm your first <strong>{form.deliveryDay}</strong> delivery — if not, tap below.
                   </p>
                   <div className="inline-flex items-center gap-2 bg-blue-50 border border-blue-100 rounded-xl px-4 py-2 text-sm font-semibold text-blue-700 mt-2 mb-6">
                     <Droplets className="w-4 h-4" />
@@ -364,12 +379,12 @@ export function Subscription() {
                   </div>
                   <div className="flex flex-col sm:flex-row gap-3 justify-center">
                     <a
-                      href={`https://wa.me/923222584525?text=${encodeURIComponent(`Hi! I just set up a ${form.frequency} subscription for ${form.bundle} (${form.deliveryDay}s). My name is ${form.name}, number: ${form.phone}.`)}`}
+                      href={`https://wa.me/923222584525?text=${waMessage()}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="inline-flex items-center justify-center gap-2 bg-green-500 hover:bg-green-600 text-white font-semibold px-6 py-3 rounded-xl transition-colors text-sm"
                     >
-                      💬 Confirm on WhatsApp
+                      💬 Re-open WhatsApp
                     </a>
                     <button
                       onClick={() => { setForm(EMPTY); setStep("bundle"); }}

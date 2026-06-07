@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Send, CheckCircle2, Mail, PhoneCall } from "lucide-react";
+import { Send, CheckCircle2, Mail, PhoneCall, MessageCircle } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -36,9 +36,14 @@ const interests = [
   "Other",
 ];
 
+const PK_PHONE = /^(\+92|0)3[0-9]{9}$/;
+
 const enquirySchema = z.object({
   name: z.string().min(2, "Please enter your full name"),
-  phone: z.string().min(10, "Please enter a valid phone number").max(15),
+  phone: z
+    .string()
+    .transform((v) => v.replace(/[\s\-]/g, ""))
+    .refine((v) => PK_PHONE.test(v), "Enter a valid Pakistani mobile number (e.g. 0300 1234567)"),
   interest: z.string().min(1, "Please select a topic"),
   message: z.string().optional(),
 });
@@ -55,6 +60,22 @@ export function Enquiry() {
     defaultValues: { name: "", phone: "", interest: "", message: "" },
   });
 
+  const buildWaMessage = (data: EnquiryFormData) =>
+    encodeURIComponent(
+      [
+        "Hi, I just submitted an enquiry on your website.",
+        "",
+        `Name: ${data.name}`,
+        `Phone: ${data.phone}`,
+        `Topic: ${data.interest}`,
+        data.message ? `Message: ${data.message}` : "",
+        "",
+        "Please get back to me when convenient. Thank you!",
+      ]
+        .filter(Boolean)
+        .join("\n")
+    );
+
   const onSubmit = async (data: EnquiryFormData) => {
     setSubmitting(true);
     setError(null);
@@ -66,6 +87,7 @@ export function Enquiry() {
       });
       if (!res.ok) throw new Error("Server error");
       setSubmitted(true);
+      window.open(`https://wa.me/923222584525?text=${buildWaMessage(data)}`, "_blank");
     } catch {
       setError("Something went wrong. Please try again or call us directly.");
     } finally {
@@ -186,15 +208,37 @@ export function Enquiry() {
                   </div>
                   <h3 className="text-2xl font-bold text-slate-900 mb-2">Enquiry Received!</h3>
                   <p className="text-slate-500 mb-6">
-                    Thank you! Our team will get back to you within one business day.
+                    WhatsApp should have opened with your details pre-filled — if it didn't, tap the button below to send it manually.
                   </p>
-                  <Button
-                    variant="outline"
-                    className="rounded-xl"
-                    onClick={() => { form.reset(); setSubmitted(false); }}
-                  >
-                    Send Another Enquiry
-                  </Button>
+                  <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                    <Button
+                      className="rounded-xl bg-green-600 hover:bg-green-700 text-white gap-2"
+                      onClick={() => {
+                        const d = form.getValues();
+                        const msg = [
+                          "Hi, I just submitted an enquiry on your website.",
+                          "",
+                          `Name: ${d.name}`,
+                          `Phone: ${d.phone}`,
+                          `Topic: ${d.interest}`,
+                          d.message ? `Message: ${d.message}` : "",
+                          "",
+                          "Please get back to me when convenient. Thank you!",
+                        ].filter(Boolean).join("\n");
+                        window.open(`https://wa.me/923222584525?text=${encodeURIComponent(msg)}`, "_blank");
+                      }}
+                    >
+                      <MessageCircle className="h-4 w-4" />
+                      Confirm via WhatsApp
+                    </Button>
+                    <Button
+                      variant="outline"
+                      className="rounded-xl"
+                      onClick={() => { form.reset(); setSubmitted(false); }}
+                    >
+                      Send Another Enquiry
+                    </Button>
+                  </div>
                 </div>
               ) : (
                 <div className="rounded-3xl p-8 bg-white border border-slate-100 shadow-xl shadow-slate-100/80">
