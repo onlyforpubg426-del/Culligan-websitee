@@ -1,0 +1,1 @@
+- [Culligan Pakistan site](culligan-pk.md) — Full Culligan PK website details, routes, admin password, and architecture notes
