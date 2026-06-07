@@ -180,7 +180,7 @@ export function Footer() {
 
   return (
     <>
-      <footer className="bg-black border-t border-white/10">
+      <footer className="bg-zinc-900 border-t border-white/10">
 
         {/* ── thin top accent line ── */}
         <div className="h-1 w-full" style={{ background: "linear-gradient(90deg, #1976d2 0%, #42a5f5 50%, #1976d2 100%)" }} />
