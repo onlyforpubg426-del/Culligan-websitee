@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState, useCallback, useMemo } from "react";
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip,
-  ResponsiveContainer, Cell,
+  ResponsiveContainer, Cell, AreaChart, Area,
 } from "recharts";
 
 const BASE = import.meta.env.BASE_URL.replace(/\/$/, "");
@@ -157,6 +157,101 @@ function TopicBreakdownChart({ leads }: { leads: Lead[] }) {
             ))}
           </Bar>
         </BarChart>
+      </ResponsiveContainer>
+    </div>
+  );
+}
+
+function VolumeChart({ leads }: { leads: Lead[] }) {
+  const data = useMemo(() => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const days: { date: string; label: string; count: number }[] = [];
+    for (let i = 29; i >= 0; i--) {
+      const d = new Date(today);
+      d.setDate(d.getDate() - i);
+      const iso = d.toISOString().slice(0, 10);
+      days.push({
+        date: iso,
+        label: d.toLocaleDateString("en-PK", { month: "short", day: "numeric" }),
+        count: 0,
+      });
+    }
+    leads.forEach((l) => {
+      const iso = new Date(l.createdAt).toISOString().slice(0, 10);
+      const slot = days.find((d) => d.date === iso);
+      if (slot) slot.count++;
+    });
+    return days;
+  }, [leads]);
+
+  const total = data.reduce((s, d) => s + d.count, 0);
+  if (total === 0) return null;
+
+  const peak = Math.max(...data.map((d) => d.count));
+
+  type VTooltipProps = { active?: boolean; payload?: { value: number }[]; label?: string };
+  const VTooltip = ({ active, payload, label }: VTooltipProps) => {
+    if (!active || !payload?.length) return null;
+    return (
+      <div className="bg-white border border-slate-200 rounded-xl px-3 py-2 shadow-lg text-sm">
+        <span className="font-semibold text-slate-800">{label}</span>
+        <span className="ml-2 text-slate-500">
+          {payload[0].value} {payload[0].value === 1 ? "enquiry" : "enquiries"}
+        </span>
+      </div>
+    );
+  };
+
+  const ticks = data
+    .filter((_, i) => i === 0 || i === 7 || i === 14 || i === 21 || i === 29)
+    .map((d) => d.label);
+
+  return (
+    <div className="bg-white rounded-2xl border border-slate-200 p-6 mb-6">
+      <div className="flex items-start justify-between mb-5">
+        <div>
+          <p className="text-sm font-bold text-slate-800 mb-0.5">Volume Trend</p>
+          <p className="text-xs text-slate-400">Daily enquiries over the last 30 days</p>
+        </div>
+        <div className="text-right">
+          <p className="text-2xl font-black text-indigo-600">{total}</p>
+          <p className="text-xs text-slate-400">total · peak {peak}/day</p>
+        </div>
+      </div>
+      <ResponsiveContainer width="100%" height={140}>
+        <AreaChart data={data} margin={{ top: 4, right: 4, bottom: 0, left: -20 }}>
+          <defs>
+            <linearGradient id="enquiryGradient" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="#4f46e5" stopOpacity={0.18} />
+              <stop offset="100%" stopColor="#4f46e5" stopOpacity={0} />
+            </linearGradient>
+          </defs>
+          <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
+          <XAxis
+            dataKey="label"
+            ticks={ticks}
+            tick={{ fontSize: 10, fill: "#94a3b8" }}
+            tickLine={false}
+            axisLine={false}
+          />
+          <YAxis
+            allowDecimals={false}
+            tick={{ fontSize: 10, fill: "#94a3b8" }}
+            tickLine={false}
+            axisLine={false}
+          />
+          <Tooltip content={<VTooltip />} cursor={{ stroke: "#c7d2fe", strokeWidth: 1 }} />
+          <Area
+            type="monotone"
+            dataKey="count"
+            stroke="#4f46e5"
+            strokeWidth={2}
+            fill="url(#enquiryGradient)"
+            dot={false}
+            activeDot={{ r: 4, fill: "#4f46e5", strokeWidth: 0 }}
+          />
+        </AreaChart>
       </ResponsiveContainer>
     </div>
   );
@@ -573,6 +668,7 @@ export default function Admin() {
               </div>
             </div>
 
+            <VolumeChart leads={leads} />
             <TopicBreakdownChart leads={leads} />
 
             {leadsLoading && <div className="text-center py-20 text-slate-400">Loading enquiries...</div>}
