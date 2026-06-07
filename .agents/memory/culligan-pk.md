@@ -9,7 +9,7 @@ Password: `culligan@2025` stored in sessionStorage key `culligan_admin_v1`. No b
 ## Architecture
 - Frontend: React + Vite at `artifacts/culligan-pk/` on previewPath `/`
 - Backend: Express API at `artifacts/api-server/` on `/api`
-- No database — in-memory store at `artifacts/api-server/src/lib/store.ts`
+- Database: PostgreSQL via Drizzle ORM — store.ts uses `@workspace/db` for all reads/writes. Data persists across restarts.
 - Cart state: React context in `src/lib/cart.tsx`
 
 ## Frontend Routes
@@ -23,7 +23,7 @@ Password: `culligan@2025` stored in sessionStorage key `culligan_admin_v1`. No b
 /contact → Contact page
 /corporate-pricing → Corporate pricing
 
-## API Routes (in-memory, no DB)
+## API Routes (PostgreSQL-backed, persistent)
 GET/POST /api/orders, PATCH /api/orders/:id/status
 GET/POST /api/leads
 GET/POST /api/contact, PATCH /api/contact/:id/status
@@ -32,5 +32,3 @@ GET /api/events (SSE stream for real-time admin updates)
 
 ## Public Assets
 All images at artifacts/culligan-pk/public/ — bottles/, bundles/, dispensers, certs, logos
-
-**Why no DB:** App uses in-memory store to avoid DB dependency. Data resets on server restart by design.
