@@ -297,6 +297,41 @@ function StarRow({ rating, count }: { rating: number; count: number }) {
   );
 }
 
+/* ─── Why Card ──────────────────────────────────────────── */
+
+function WhyCard({ pt, idx }: { pt: (typeof whyPoints)[0]; idx: number }) {
+  const accents = [
+    { border: "#bfdbfe", iconBg: "linear-gradient(135deg,#dbeafe,#eff6ff)", iconColor: "#1976d2" },
+    { border: "#a5f3fc", iconBg: "linear-gradient(135deg,#cffafe,#f0f9ff)", iconColor: "#0369a1" },
+    { border: "#c7d2fe", iconBg: "linear-gradient(135deg,#e0e7ff,#f5f3ff)", iconColor: "#4f46e5" },
+    { border: "#bfdbfe", iconBg: "linear-gradient(135deg,#dbeafe,#eff6ff)", iconColor: "#1d4ed8" },
+    { border: "#99f6e4", iconBg: "linear-gradient(135deg,#ccfbf1,#f0fdf4)", iconColor: "#0f766e" },
+    { border: "#a5f3fc", iconBg: "linear-gradient(135deg,#cffafe,#f0f9ff)", iconColor: "#0284c7" },
+  ];
+  const a = accents[idx % accents.length];
+  const Icon = pt.icon;
+  return (
+    <div
+      className="relative flex-shrink-0 w-[300px] md:w-[340px] bg-white rounded-2xl p-6 mx-3 border flex flex-col gap-3"
+      style={{
+        borderColor: a.border,
+        boxShadow: `0 2px 20px ${a.border}80, 0 1px 4px rgba(0,0,0,0.04)`,
+      }}
+    >
+      <div className="absolute top-0 left-6 right-6 h-[3px] rounded-b-full"
+        style={{ background: `linear-gradient(90deg, ${a.border}, ${a.iconColor}40)` }} />
+      <div className="w-11 h-11 rounded-xl flex items-center justify-center mt-1 shadow-sm"
+        style={{ background: a.iconBg }}>
+        <Icon className="h-5 w-5" style={{ color: a.iconColor }} />
+      </div>
+      <div>
+        <h4 className="font-extrabold text-slate-900 text-[15px] mb-1.5 leading-snug">{pt.title}</h4>
+        <p className="text-slate-500 text-sm leading-relaxed">{pt.body}</p>
+      </div>
+    </div>
+  );
+}
+
 /* ─── Products section ───────────────────────────────────── */
 
 export function Products() {
@@ -795,50 +830,35 @@ export function Products() {
             </motion.p>
           </div>
 
-          {/* ── Feature grid ── */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-14">
-            {whyPoints.map((pt, i) => {
-              const Icon = pt.icon;
-              const accents = [
-                { border: "#bfdbfe", iconBg: "linear-gradient(135deg,#dbeafe,#eff6ff)", iconColor: "#1976d2", num: "#bfdbfe" },
-                { border: "#a5f3fc", iconBg: "linear-gradient(135deg,#cffafe,#f0f9ff)", iconColor: "#0369a1", num: "#a5f3fc" },
-                { border: "#c7d2fe", iconBg: "linear-gradient(135deg,#e0e7ff,#f5f3ff)", iconColor: "#4f46e5", num: "#c7d2fe" },
-                { border: "#bfdbfe", iconBg: "linear-gradient(135deg,#dbeafe,#eff6ff)", iconColor: "#1d4ed8", num: "#bfdbfe" },
-                { border: "#99f6e4", iconBg: "linear-gradient(135deg,#ccfbf1,#f0fdf4)", iconColor: "#0f766e", num: "#99f6e4" },
-                { border: "#a5f3fc", iconBg: "linear-gradient(135deg,#cffafe,#f0f9ff)", iconColor: "#0284c7", num: "#a5f3fc" },
-              ];
-              const a = accents[i % accents.length];
-              return (
-                <motion.div
-                  key={pt.title}
-                  initial={{ opacity: 0, y: 28 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.09, duration: 0.45 }}
-                  whileHover={{ y: -5, transition: { duration: 0.2 } }}
-                  className="group relative rounded-3xl p-6 bg-white border overflow-hidden cursor-default"
-                  style={{
-                    borderColor: a.border,
-                    boxShadow: `0 2px 20px 0 ${a.border}80, 0 1px 4px 0 rgba(0,0,0,0.04)`,
-                  }}
-                >
-                  {/* Big decorative number */}
-                  <span className="absolute -top-3 -right-1 text-[80px] font-black leading-none select-none pointer-events-none opacity-[0.07]" style={{ color: a.iconColor }}>
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
+          {/* ── Feature marquee ── */}
+          <div className="flex flex-col gap-4 mb-14 -mx-4 md:-mx-6">
 
-                  {/* Top border accent line */}
-                  <div className="absolute top-0 left-6 right-6 h-[3px] rounded-b-full opacity-70" style={{ background: a.border }} />
+            {/* Row 1 — forward */}
+            <div className="overflow-hidden relative">
+              <div className="absolute left-0 top-0 bottom-0 w-20 z-10 pointer-events-none"
+                style={{ background: "linear-gradient(90deg, #f0f9ff 0%, transparent 100%)" }} />
+              <div className="absolute right-0 top-0 bottom-0 w-20 z-10 pointer-events-none"
+                style={{ background: "linear-gradient(270deg, #f0f9ff 0%, transparent 100%)" }} />
+              <div className="why-marquee py-3">
+                {[...whyPoints, ...whyPoints].map((pt, i) => (
+                  <WhyCard key={i} pt={pt} idx={i % whyPoints.length} />
+                ))}
+              </div>
+            </div>
 
-                  <div className="w-12 h-12 rounded-2xl flex items-center justify-center mb-5 shadow-sm" style={{ background: a.iconBg }}>
-                    <Icon className="h-5 w-5" style={{ color: a.iconColor }} />
-                  </div>
+            {/* Row 2 — reverse */}
+            <div className="overflow-hidden relative">
+              <div className="absolute left-0 top-0 bottom-0 w-20 z-10 pointer-events-none"
+                style={{ background: "linear-gradient(90deg, #f0f9ff 0%, transparent 100%)" }} />
+              <div className="absolute right-0 top-0 bottom-0 w-20 z-10 pointer-events-none"
+                style={{ background: "linear-gradient(270deg, #f0f9ff 0%, transparent 100%)" }} />
+              <div className="why-marquee-reverse py-3">
+                {[...[...whyPoints].reverse(), ...[...whyPoints].reverse()].map((pt, i) => (
+                  <WhyCard key={i} pt={pt} idx={(whyPoints.length - 1 - i % whyPoints.length)} />
+                ))}
+              </div>
+            </div>
 
-                  <h4 className="font-extrabold text-slate-900 text-base mb-2 leading-snug">{pt.title}</h4>
-                  <p className="text-slate-500 text-sm leading-relaxed">{pt.body}</p>
-                </motion.div>
-              );
-            })}
           </div>
 
           {/* ── Stats strip ── */}
@@ -1092,6 +1112,30 @@ export function Products() {
         )}
       </AnimatePresence>
 
+      <style>{`
+        .why-marquee {
+          display: flex;
+          width: max-content;
+          animation: why-scroll 30s linear infinite;
+        }
+        .why-marquee-reverse {
+          display: flex;
+          width: max-content;
+          animation: why-scroll-reverse 34s linear infinite;
+        }
+        .why-marquee:hover,
+        .why-marquee-reverse:hover {
+          animation-play-state: paused;
+        }
+        @keyframes why-scroll {
+          0%   { transform: translateX(0); }
+          100% { transform: translateX(-50%); }
+        }
+        @keyframes why-scroll-reverse {
+          0%   { transform: translateX(-50%); }
+          100% { transform: translateX(0); }
+        }
+      `}</style>
 
     </section>
   );
