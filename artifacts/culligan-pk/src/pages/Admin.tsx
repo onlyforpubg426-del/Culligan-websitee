@@ -176,21 +176,22 @@ function VolumeChart({
   gradientId?: string;
 }) {
   const data = useMemo(() => {
+    const toLocalISO = (d: Date) =>
+      `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
     const today = new Date();
     today.setHours(0, 0, 0, 0);
     const days: { date: string; label: string; count: number }[] = [];
     for (let i = 29; i >= 0; i--) {
       const d = new Date(today);
       d.setDate(d.getDate() - i);
-      const iso = d.toISOString().slice(0, 10);
       days.push({
-        date: iso,
+        date: toLocalISO(d),
         label: d.toLocaleDateString("en-PK", { month: "short", day: "numeric" }),
         count: 0,
       });
     }
     items.forEach((item) => {
-      const iso = new Date(item.createdAt).toISOString().slice(0, 10);
+      const iso = toLocalISO(new Date(item.createdAt));
       const slot = days.find((d) => d.date === iso);
       if (slot) slot.count++;
     });
