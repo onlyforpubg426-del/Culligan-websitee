@@ -1,4 +1,8 @@
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useEffect, useRef, useState, useCallback, useMemo } from "react";
+import {
+  BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip,
+  ResponsiveContainer, Cell,
+} from "recharts";
 
 const BASE = import.meta.env.BASE_URL.replace(/\/$/, "");
 const API = `${BASE}/api`;
@@ -86,6 +90,77 @@ const TOAST_COLORS = {
 };
 
 let toastSeq = 0;
+
+const CHART_COLORS = [
+  "#4f46e5", "#7c3aed", "#2563eb", "#0891b2",
+  "#059669", "#d97706", "#dc2626",
+];
+
+type ChartTooltipProps = { payload?: { name: string; value: number }[]; active?: boolean };
+
+function TopicBreakdownChart({ leads }: { leads: Lead[] }) {
+  const data = useMemo(() => {
+    const counts: Record<string, number> = {};
+    leads.forEach((l) => {
+      counts[l.interest] = (counts[l.interest] ?? 0) + 1;
+    });
+    return Object.entries(counts)
+      .map(([name, count]) => ({ name, count }))
+      .sort((a, b) => b.count - a.count);
+  }, [leads]);
+
+  if (data.length === 0) return null;
+
+  const CustomTooltip = ({ active, payload }: ChartTooltipProps) => {
+    if (!active || !payload?.length) return null;
+    const { name, value } = payload[0];
+    return (
+      <div className="bg-white border border-slate-200 rounded-xl px-3 py-2 shadow-lg text-sm">
+        <span className="font-semibold text-slate-800">{name}</span>
+        <span className="ml-2 text-slate-500">
+          {value} {Number(value) === 1 ? "enquiry" : "enquiries"}
+        </span>
+      </div>
+    );
+  };
+
+  return (
+    <div className="bg-white rounded-2xl border border-slate-200 p-6 mb-6">
+      <p className="text-sm font-bold text-slate-800 mb-0.5">Topic Breakdown</p>
+      <p className="text-xs text-slate-400 mb-5">Enquiries grouped by selected interest</p>
+      <ResponsiveContainer width="100%" height={data.length * 46 + 16}>
+        <BarChart
+          data={data}
+          layout="vertical"
+          margin={{ top: 0, right: 24, bottom: 0, left: 160 }}
+        >
+          <CartesianGrid strokeDasharray="3 3" horizontal={false} stroke="#f1f5f9" />
+          <XAxis
+            type="number"
+            allowDecimals={false}
+            tick={{ fontSize: 11, fill: "#94a3b8" }}
+            tickLine={false}
+            axisLine={false}
+          />
+          <YAxis
+            type="category"
+            dataKey="name"
+            tick={{ fontSize: 12, fill: "#475569", fontWeight: 500 }}
+            tickLine={false}
+            axisLine={false}
+            width={155}
+          />
+          <Tooltip cursor={{ fill: "#f8fafc" }} content={<CustomTooltip />} />
+          <Bar dataKey="count" radius={[0, 6, 6, 0]} maxBarSize={28}>
+            {data.map((_, i) => (
+              <Cell key={i} fill={CHART_COLORS[i % CHART_COLORS.length]} />
+            ))}
+          </Bar>
+        </BarChart>
+      </ResponsiveContainer>
+    </div>
+  );
+}
 
 function RefreshIcon() {
   return (
@@ -497,6 +572,8 @@ export default function Admin() {
                 </p>
               </div>
             </div>
+
+            <TopicBreakdownChart leads={leads} />
 
             {leadsLoading && <div className="text-center py-20 text-slate-400">Loading enquiries...</div>}
             {leadsError   && <div className="bg-red-50 border border-red-200 rounded-xl p-6 text-red-700 text-sm">{leadsError}</div>}
