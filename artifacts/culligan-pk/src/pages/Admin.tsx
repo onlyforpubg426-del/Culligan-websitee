@@ -162,7 +162,17 @@ function TopicBreakdownChart({ leads }: { leads: Lead[] }) {
   );
 }
 
-function VolumeChart({ leads }: { leads: Lead[] }) {
+function VolumeChart({
+  items,
+  noun = "enquiry",
+  color = "#4f46e5",
+  gradientId = "volGradient",
+}: {
+  items: { createdAt: string }[];
+  noun?: string;
+  color?: string;
+  gradientId?: string;
+}) {
   const data = useMemo(() => {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
@@ -177,13 +187,13 @@ function VolumeChart({ leads }: { leads: Lead[] }) {
         count: 0,
       });
     }
-    leads.forEach((l) => {
-      const iso = new Date(l.createdAt).toISOString().slice(0, 10);
+    items.forEach((item) => {
+      const iso = new Date(item.createdAt).toISOString().slice(0, 10);
       const slot = days.find((d) => d.date === iso);
       if (slot) slot.count++;
     });
     return days;
-  }, [leads]);
+  }, [items]);
 
   const total = data.reduce((s, d) => s + d.count, 0);
   if (total === 0) return null;
@@ -193,11 +203,12 @@ function VolumeChart({ leads }: { leads: Lead[] }) {
   type VTooltipProps = { active?: boolean; payload?: { value: number }[]; label?: string };
   const VTooltip = ({ active, payload, label }: VTooltipProps) => {
     if (!active || !payload?.length) return null;
+    const v = payload[0].value;
     return (
       <div className="bg-white border border-slate-200 rounded-xl px-3 py-2 shadow-lg text-sm">
         <span className="font-semibold text-slate-800">{label}</span>
         <span className="ml-2 text-slate-500">
-          {payload[0].value} {payload[0].value === 1 ? "enquiry" : "enquiries"}
+          {v} {v === 1 ? noun : noun + "s"}
         </span>
       </div>
     );
@@ -212,19 +223,19 @@ function VolumeChart({ leads }: { leads: Lead[] }) {
       <div className="flex items-start justify-between mb-5">
         <div>
           <p className="text-sm font-bold text-slate-800 mb-0.5">Volume Trend</p>
-          <p className="text-xs text-slate-400">Daily enquiries over the last 30 days</p>
+          <p className="text-xs text-slate-400">Daily {noun}s over the last 30 days</p>
         </div>
         <div className="text-right">
-          <p className="text-2xl font-black text-indigo-600">{total}</p>
+          <p className="text-2xl font-black" style={{ color }}>{total}</p>
           <p className="text-xs text-slate-400">total · peak {peak}/day</p>
         </div>
       </div>
       <ResponsiveContainer width="100%" height={140}>
         <AreaChart data={data} margin={{ top: 4, right: 4, bottom: 0, left: -20 }}>
           <defs>
-            <linearGradient id="enquiryGradient" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#4f46e5" stopOpacity={0.18} />
-              <stop offset="100%" stopColor="#4f46e5" stopOpacity={0} />
+            <linearGradient id={gradientId} x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor={color} stopOpacity={0.18} />
+              <stop offset="100%" stopColor={color} stopOpacity={0} />
             </linearGradient>
           </defs>
           <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
@@ -241,15 +252,15 @@ function VolumeChart({ leads }: { leads: Lead[] }) {
             tickLine={false}
             axisLine={false}
           />
-          <Tooltip content={<VTooltip />} cursor={{ stroke: "#c7d2fe", strokeWidth: 1 }} />
+          <Tooltip content={<VTooltip />} cursor={{ stroke: "#e0e7ff", strokeWidth: 1 }} />
           <Area
             type="monotone"
             dataKey="count"
-            stroke="#4f46e5"
+            stroke={color}
             strokeWidth={2}
-            fill="url(#enquiryGradient)"
+            fill={`url(#${gradientId})`}
             dot={false}
-            activeDot={{ r: 4, fill: "#4f46e5", strokeWidth: 0 }}
+            activeDot={{ r: 4, fill: color, strokeWidth: 0 }}
           />
         </AreaChart>
       </ResponsiveContainer>
@@ -590,6 +601,8 @@ export default function Admin() {
               ))}
             </div>
 
+            <VolumeChart items={orders} noun="order" color="#2563eb" gradientId="orderVol" />
+
             {ordersLoading && <div className="text-center py-20 text-slate-400">Loading orders...</div>}
             {ordersError   && <div className="bg-red-50 border border-red-200 rounded-xl p-6 text-red-700 text-sm">{ordersError}</div>}
             {!ordersLoading && !ordersError && orders.length === 0 && (
@@ -668,7 +681,7 @@ export default function Admin() {
               </div>
             </div>
 
-            <VolumeChart leads={leads} />
+            <VolumeChart items={leads} noun="enquiry" color="#4f46e5" gradientId="enquiryVol" />
             <TopicBreakdownChart leads={leads} />
 
             {leadsLoading && <div className="text-center py-20 text-slate-400">Loading enquiries...</div>}
