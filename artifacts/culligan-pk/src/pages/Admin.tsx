@@ -319,7 +319,10 @@ function ToastStack({ toasts, onDismiss }: { toasts: Toast[]; onDismiss: (id: nu
   );
 }
 
-export default function Admin() {
+const ADMIN_KEY = "culligan_admin_v1";
+const ADMIN_PASS = "culligan@2025";
+
+function AdminDashboard({ onLogout }: { onLogout: () => void }) {
   const [tab, setTab] = useState<"orders" | "enquiries" | "contact" | "subscriptions">("orders");
 
   const [orders,  setOrders]  = useState<Order[]>([]);
@@ -557,6 +560,15 @@ export default function Admin() {
           >
             <RefreshIcon />
             Refresh
+          </button>
+          <button
+            onClick={onLogout}
+            className="text-sm font-medium text-slate-500 hover:text-red-600 flex items-center gap-1.5 transition-colors"
+          >
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+            </svg>
+            Log out
           </button>
         </div>
       </header>
@@ -892,4 +904,69 @@ export default function Admin() {
       </main>
     </div>
   );
+}
+
+export default function Admin() {
+  const [authed, setAuthed] = useState(() => sessionStorage.getItem(ADMIN_KEY) === "1");
+  const [pwInput, setPwInput] = useState("");
+  const [pwError, setPwError] = useState(false);
+
+  const handleLogin = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (pwInput === ADMIN_PASS) {
+      sessionStorage.setItem(ADMIN_KEY, "1");
+      setAuthed(true);
+      setPwError(false);
+    } else {
+      setPwError(true);
+      setPwInput("");
+    }
+  };
+
+  const handleLogout = () => {
+    sessionStorage.removeItem(ADMIN_KEY);
+    setAuthed(false);
+    setPwInput("");
+  };
+
+  if (!authed) {
+    return (
+      <div className="min-h-screen bg-slate-50 flex items-center justify-center px-4">
+        <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-8 w-full max-w-sm">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="w-9 h-9 rounded-lg bg-blue-600 flex items-center justify-center">
+              <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+              </svg>
+            </div>
+            <div>
+              <h1 className="text-lg font-bold text-slate-900">Culligan Admin</h1>
+              <p className="text-xs text-slate-500">Enter your password to continue</p>
+            </div>
+          </div>
+          <form onSubmit={handleLogin}>
+            <input
+              type="password"
+              autoFocus
+              placeholder="Password"
+              value={pwInput}
+              onChange={(e) => { setPwInput(e.target.value); setPwError(false); }}
+              className={`w-full px-4 py-2.5 rounded-xl border text-sm outline-none mb-3 transition-colors ${
+                pwError ? "border-red-400 bg-red-50" : "border-slate-200 focus:border-blue-400"
+              }`}
+            />
+            {pwError && <p className="text-xs text-red-500 mb-3">Incorrect password. Try again.</p>}
+            <button
+              type="submit"
+              className="w-full bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold py-2.5 rounded-xl transition-colors"
+            >
+              Log in
+            </button>
+          </form>
+        </div>
+      </div>
+    );
+  }
+
+  return <AdminDashboard onLogout={handleLogout} />;
 }
